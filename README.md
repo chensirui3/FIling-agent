@@ -26,6 +26,7 @@ The frozen system is Claude Opus 5.5 at medium effort, with filing search, page 
 - **FinanceBench is largely memorized.** With no documents, the model answers 80% of dev questions, but none about filings published after its training cutoff. The fresh benchmark ([docs/FRESH.md](docs/FRESH.md)) is built from 38 post-cutoff 10-Ks and 10-Qs, with golds taken from the filings' own XBRL tags and checked against the SEC API.
 - **The agent's accuracy is research, not recall.** It scores 100% on the post-cutoff questions. It uses the XBRL API only when the figure exists nowhere else (23 of 25 two-year-change questions, against 2 of 114 in the first tier).
 - **Almost every failure is on the question side.** Of 21 failures in 339 questions, 2 are agent errors (both used a source for the wrong period). The rest are unstated definitions, judgment calls, ambiguous questions, wrong golds and one judge error. There are no retrieval, table-reading or arithmetic failures.
+- **The grading holds up.** A blind human check of 40 judge verdicts found no lenient ones (32 of 32 "correct" verdicts agreed). Where the two differed, the judge had been the stricter.
 - **The one measured fix was rejected.** A prompt change targeting the period error fixed it, but dev dropped 96% → 90% on three judgment questions (p = 0.25). The pre-registered rule rejected it, and the negative result is reported.
 
 Total API spend for all development and evaluation: about $38.
@@ -176,9 +177,9 @@ claude mcp add filing-agent -- uv run --directory "/path/to/filing agent" fa mcp
 - **One run per configuration.**
   - Run-to-run variation on judgment questions is about three of 50, as large as small fixes.
   - Repetitions were not affordable, so differences under about 10 points are not significant.
-- **The judge is a model.** Claude Sonnet 5.5 grades prose answers, with its figures cross-checked numerically.
-  - Every failure and every flagged disagreement was read by hand.
-  - No human calibration set was labeled.
+- **The judge is a model, checked against a person.** Claude Sonnet 5.5 grades prose answers, with its figures cross-checked numerically.
+  - In a blind check of 40 of its verdicts, a person agreed with all 32 it called correct and 3 of 7 it called incorrect: 93.7% weighted agreement, kappa 0.55.
+  - It is not lenient. It is stricter than a person where the answer key uses an unusual formula, so the strict scores are conservative.
 - **The fresh text questions were drafted by Claude.** They were checked automatically, read in a first pass, and sampled by a person. The same model family answers them, which may favor its wording; the numeric two-thirds are template-based.
 - **Not run:**
   - the whole-filing long-context baseline (about $20–45)

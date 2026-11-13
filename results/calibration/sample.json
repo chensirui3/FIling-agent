@@ -1,0 +1,294 @@
+{
+  "seed": 7,
+  "runs": [
+    "20261112-194903-b4_full_agent-947b03f4d8",
+    "20261113-011939-b4_full_agent-947b03f4d8",
+    "20261112-210643-fresh_b4_full_agent-56c6422eee"
+  ],
+  "population": {
+    "correct": 121,
+    "incorrect": 15
+  },
+  "items": [
+    {
+      "item": "C01",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_02419",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C02",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_BOEING_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C03",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01474",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C04",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00882",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C05",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01254",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C06",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_NETFLIX_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C07",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_MGMRESORTS_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C08",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00723",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C09",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00215",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C10",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_JOHNSON_JOHNSON_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C11",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01079",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C12",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00206",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C13",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01902",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C14",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00799",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C15",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01858",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C16",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00494",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C17",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00080",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C18",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_AMERICANEXPRESS_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C19",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00651",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C20",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01490",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C21",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00216",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C22",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_02049",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C23",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_02119",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C24",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00460",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C25",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_EBAY_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C26",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01928",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C27",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00822",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C28",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01009",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C29",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00288",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C30",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01346",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C31",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00807",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C32",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_KRAFTHEINZ_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C33",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00956",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C34",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00005",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C35",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00995",
+      "rep": 1,
+      "judge_label": "incorrect"
+    },
+    {
+      "item": "C36",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00685",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C37",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00757",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C38",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_00678",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C39",
+      "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+      "question_id": "fresh_COCACOLA_2026Q3_10Q_text",
+      "rep": 1,
+      "judge_label": "correct"
+    },
+    {
+      "item": "C40",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "question_id": "financebench_id_01482",
+      "rep": 1,
+      "judge_label": "correct"
+    }
+  ]
+}

@@ -217,6 +217,32 @@ The adjusted score counts the last two rows as correct (three questions). Formul
 - **Metrics questions are near perfect again (33/34).** On dev, the closed-book baseline also got all of these right, so they mostly measure recall. The one miss is a definition choice.
 - **Test is harder than dev:** 85% vs. 96%, driven by novel and domain questions, 10-Q filings and earnings releases. It has more questions that depend on a single document, and several with unstated definitions.
 
+## Judge calibration (blind human labels)
+
+The LLM judge grades every prose answer: 98 of 150 FinanceBench questions and the 38 fresh text questions. The project owner graded a blind sample of its verdicts on the frozen system's runs (FinanceBench dev and test, fresh first tier: 136 judge-graded answers).
+- **The sample:** 32 answers the judge called correct and 8 it called incorrect, shuffled under neutral ids.
+- **What the grader saw:** exactly what the judge saw (question, answer key, justification, response) and the judge's rubric, but never its verdict.
+
+| | Agreement |
+|---|---|
+| Judge said **correct** (leniency check) | **32/32** (95% CI 89–100%) |
+| Judge said incorrect (harshness check) | 3/7, plus 1 marked unsure |
+| Overall, weighted to the judge's mix of verdicts (121 correct, 15 incorrect) | **93.7%** (raw 89.7% on the stratified sample) |
+| Cohen's kappa | 0.55 |
+
+**The judge is not lenient.** No answer it passed was failed by the person, so the reported accuracies are not inflated by grading. The planned bar of 90% agreement is met.
+
+**Where they disagreed, the judge was the stricter one:**
+- `00995` AMD's products: a plain judge error. Its own rationale says the figures "do match", but the verdict is incorrect.
+- `00080` PayPal and `00005` Corning working capital: both answers say "yes", as the key does. The key's figure uses a narrower definition (operating items only, or cash excluded); the judge failed the different figure and the person accepted the standard formula.
+- `01902` Best Buy's best category "by top line": revenue size versus growth.
+- `00807` 3M's quick ratio (marked unsure): 0.85 versus the key's 0.96, from two standard formulas, with the same conclusion.
+
+**What it means for the scores.**
+- Each disagreement sits in the definition or judgment categories of the [error analysis](ERROR_ANALYSIS.md), plus the one judge error already counted there.
+- If a person would pass about 4 in 7 of the judge's "incorrect" prose answers (95% CI 25–84%), FinanceBench test under human grading would be about 92% (88–96%) rather than the strict 85%. That extrapolation rests on only 7 items.
+- The strict scores remain the headline; they are a conservative bound.
+
 ## Fix 1: check the period a document states (prompt v2)
 
 **The failure it targets.** On the hard tier, the agent took Ulta's fiscal 2023 figure from a file labeled fiscal 2024. It noticed the release says fiscal 2023, but used the figure anyway.

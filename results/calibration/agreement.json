@@ -1,0 +1,20 @@
+{
+  "labeled": 39,
+  "unsure": 1,
+  "missing": 0,
+  "agree_when_judge_correct": [
+    32,
+    32
+  ],
+  "agree_when_judge_incorrect": [
+    3,
+    7
+  ],
+  "raw_agreement": 0.8974358974358975,
+  "weighted_agreement": 0.9369747899159664,
+  "kappa": 0.5517241379310345,
+  "judge_correct_ci95": [
+    0.8928208017449293,
+    1.0
+  ]
+}

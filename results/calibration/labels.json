@@ -1,0 +1,242 @@
+{
+  "C01": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_02419",
+    "judge": "incorrect",
+    "human": "incorrect"
+  },
+  "C02": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_BOEING_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C03": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01474",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C04": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00882",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C05": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01254",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C06": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_NETFLIX_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C07": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_MGMRESORTS_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C08": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00723",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C09": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00215",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C10": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_JOHNSON_JOHNSON_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C11": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01079",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C12": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00206",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C13": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01902",
+    "judge": "incorrect",
+    "human": "correct"
+  },
+  "C14": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00799",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C15": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01858",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C16": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00494",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C17": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00080",
+    "judge": "incorrect",
+    "human": "correct"
+  },
+  "C18": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_AMERICANEXPRESS_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C19": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00651",
+    "judge": "incorrect",
+    "human": "incorrect"
+  },
+  "C20": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01490",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C21": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00216",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C22": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_02049",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C23": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_02119",
+    "judge": "incorrect",
+    "human": "incorrect"
+  },
+  "C24": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00460",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C25": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_EBAY_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C26": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01928",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C27": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00822",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C28": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01009",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C29": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00288",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C30": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01346",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C31": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00807",
+    "judge": "incorrect",
+    "human": "unsure"
+  },
+  "C32": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_KRAFTHEINZ_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C33": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00956",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C34": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00005",
+    "judge": "incorrect",
+    "human": "correct"
+  },
+  "C35": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00995",
+    "judge": "incorrect",
+    "human": "correct"
+  },
+  "C36": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00685",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C37": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00757",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C38": {
+    "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_00678",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C39": {
+    "run_id": "20261112-210643-fresh_b4_full_agent-56c6422eee",
+    "question_id": "fresh_COCACOLA_2026Q3_10Q_text",
+    "judge": "correct",
+    "human": "correct"
+  },
+  "C40": {
+    "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+    "question_id": "financebench_id_01482",
+    "judge": "correct",
+    "human": "correct"
+  }
+}

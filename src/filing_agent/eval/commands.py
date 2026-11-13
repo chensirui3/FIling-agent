@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import dataclasses
 import json
 from collections import Counter
 from datetime import UTC, datetime
@@ -21,6 +22,7 @@ from filing_agent.corpus.index import MODES, Mode
 from filing_agent.corpus.parse import load_parsed
 from filing_agent.data import financebench as fb
 from filing_agent.data.splits import load_split
+from filing_agent.eval import calibration as cal
 from filing_agent.eval import retrieval as rv
 from filing_agent.eval.analysis_cli import (
     compare_command,
@@ -28,9 +30,12 @@ from filing_agent.eval.analysis_cli import (
     report_command,
     table_command,
 )
+from filing_agent.eval.datasets import all_questions
 from filing_agent.eval.gold import load_overrides, numeric_gold
+from filing_agent.eval.grade_run import load_grades
 from filing_agent.eval.grader_check import run_grader_check
 from filing_agent.eval.run_cli import run_command
+from filing_agent.eval.runner import load_results
 
 eval_app = typer.Typer(help="Evaluation runs and reports.", no_args_is_help=True)
 eval_app.command("run")(run_command)
@@ -186,3 +191,97 @@ def gold_review_command(
     console.print(f"kinds: {dict(kinds)}; scale assumed (check these first): {len(assumed)}")
     for qid in assumed:
         console.print(f"  [yellow]{qid}[/]")
+
+
+@eval_app.command("calibration-sheet")
+def calibration_sheet_command(
+    run: list[str] = typer.Option(..., "--run", help="Run to sample from (repeatable)."),
+    n_correct: int = typer.Option(32, "--correct", help="Answers the judge called correct."),
+    n_incorrect: int = typer.Option(8, "--incorrect", help="Answers it called incorrect."),
+    seed: int = typer.Option(7, help="Sampling seed."),
+    force: bool = typer.Option(False, help="Replace an existing sheet, and its verdicts."),
+) -> None:
+    """Write a blind sheet of judge-graded answers for a person to grade."""
+    settings = get_settings()
+    out_dir = settings.results_dir / "calibration"
+    sheet_path = out_dir / cal.SHEET_FILE
+    if sheet_path.exists() and not force:
+        console.print(
+            f"[red]{sheet_path} exists (it may hold verdicts). Use --force to replace it.[/]"
+        )
+        raise typer.Exit(code=1)
+    graded: list[cal.CalibrationItem] = []
+    answers = {}
+    for run_id in run:
+        run_dir = settings.results_dir / "runs" / run_id
+        rows = {(r.question_id, r.rep): r for r in load_results(run_dir)}
+        for grade in load_grades(run_dir):
+            row = rows.get((grade.question_id, grade.rep))
+            if grade.method != "judge" or row is None or row.answer is None:
+                continue
+            graded.append(
+                cal.CalibrationItem("", run_id, grade.question_id, grade.rep, grade.label or "")
+            )
+            answers[(run_id, grade.question_id, grade.rep)] = row.answer
+    items = cal.stratified_sample(graded, n_correct, n_incorrect, seed)
+    population = Counter(item.judge_label for item in graded)
+    cal.save_json(
+        out_dir / cal.SAMPLE_FILE,
+        {
+            "seed": seed,
+            "runs": run,
+            "population": dict(population),
+            "items": cal.items_to_json(items),
+        },
+    )
+    sheet_path.write_text(
+        cal.sheet(items, all_questions(settings), answers) + "\n", encoding="utf-8"
+    )
+    console.print(
+        f"{len(items)} answers sampled from {sum(population.values())} judge-graded "
+        f"({dict(population)}) -> {sheet_path}"
+    )
+
+
+@eval_app.command("calibration-score")
+def calibration_score_command() -> None:
+    """Compare the verdicts written on the sheet with the judge's."""
+    settings = get_settings()
+    out_dir = settings.results_dir / "calibration"
+    sample = json.loads((out_dir / cal.SAMPLE_FILE).read_text(encoding="utf-8"))
+    items = cal.items_from_json(sample["items"])
+    verdicts = cal.read_verdicts((out_dir / cal.SHEET_FILE).read_text(encoding="utf-8"))
+    result = cal.agreement(items, verdicts, sample["population"])
+    cal.save_json(
+        out_dir / cal.LABELS_FILE,
+        {
+            item.item: {
+                "run_id": item.run_id,
+                "question_id": item.question_id,
+                "judge": item.judge_label,
+                "human": verdicts.get(item.item),
+            }
+            for item in items
+        },
+    )
+    cal.save_json(out_dir / cal.AGREEMENT_FILE, dataclasses.asdict(result))
+    agree_c, n_c = result.agree_when_judge_correct
+    agree_i, n_i = result.agree_when_judge_incorrect
+
+    def pct(value: float | None) -> str:
+        return "-" if value is None else f"{value:.1%}"
+
+    console.print(
+        f"labeled {result.labeled}, unsure {result.unsure}, missing {result.missing}\n"
+        f"judge said correct: you agree on {agree_c}/{n_c}"
+        + (
+            f" (95% CI {result.judge_correct_ci95[0]:.0%}-{result.judge_correct_ci95[1]:.0%})"
+            if result.judge_correct_ci95
+            else ""
+        )
+        + f"\njudge said incorrect: you agree on {agree_i}/{n_i}\n"
+        f"agreement: {pct(result.raw_agreement)} on the sample, "
+        f"{pct(result.weighted_agreement)} weighted to all judge verdicts; "
+        f"kappa {'-' if result.kappa is None else f'{result.kappa:.2f}'}\n"
+        f"-> {out_dir / cal.AGREEMENT_FILE}"
+    )

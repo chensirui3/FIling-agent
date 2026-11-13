@@ -24,6 +24,8 @@ htmlcov/
 results/runs/*/traces/
 results/runs/*/*.tmp
 results/ask/
+# The calibration sheet quotes FinanceBench questions and answers; verdicts are saved apart
+results/calibration/judge_sheet.md
 
 # OS / editors
 .DS_Store

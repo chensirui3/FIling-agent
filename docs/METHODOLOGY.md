@@ -116,7 +116,10 @@ All 425 checks pass. The check caught one flaw during development: a "one unit o
 - *Inputs.* The judge sees the question, the reference answer and its justification, and the response as data. It is told not to reward length or tone, and its verdict comes back in a strict schema.
 - *Figure cross-check.* The judge copies the key figures from the reference and the response. A deterministic check then compares them, allowing rounding at either figure's precision. When the check and the verdict disagree (the judge says correct but a reference figure has no match, or says incorrect although every figure and the conclusion match), the grade is flagged `needs_review` for a human.
 - *Retries and caching.* A failed judgment stays pending, so it is retried on re-grade and never guessed. Verdicts are cached by judge version, model, question and answer, so re-grading costs nothing.
-- *Calibration.* The judge is calibrated against human labels on about 60 answers before its scores are trusted, with a target of at least 90% agreement.
+- *Calibration.* A person graded a blind, stratified sample of the judge's verdicts on the frozen system's runs. Results are in [RESULTS.md](RESULTS.md#judge-calibration-blind-human-labels).
+  - `fa eval calibration-sheet --run <id> ...` draws 32 answers the judge called correct (the leniency check) and 8 it called incorrect. It shuffles them under neutral ids and writes a sheet with the judge's rubric but not its verdicts.
+  - `fa eval calibration-score` reads the person's verdicts and reports agreement per stratum, weighted to how often the judge gives each verdict, plus Cohen's kappa.
+  - The sheet quotes FinanceBench, so it stays out of git; the verdicts are saved in `results/calibration/labels.json`.
 
 **Statistics** (`eval/stats.py`):
 

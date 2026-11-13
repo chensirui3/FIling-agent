@@ -38,6 +38,7 @@ Every failure of the frozen system across four evaluations, read against its tra
   - *Pfizer, test `00283`:* the remaining Upjohn spin-off cost, taken from older 10-Ks instead of the Q2 2023 10-Q.
   - *Ulta, hard tier:* fiscal 2023 figures from a FinanceBench file labeled fiscal 2024. The agent noticed the conflict and used the file anyway.
 - **Most failures are question-side: 19 of 21.** Unstated definitions (working capital, quick ratio, inventory turnover, ROA, free cash flow, book value), judgment calls, ambiguous questions, two golds that contradict the filing, and one judge error. Each is listed with its evidence in [RESULTS.md](RESULTS.md).
+- **The grading itself holds up.** In a blind check of 40 judge verdicts, the project owner agreed with all 32 "correct" ones (no leniency) and 3 of 7 "incorrect" ones. The disagreements were the AMD judge error and definition or interpretation cases like those above, where the judge applied the key's figure strictly ([RESULTS.md](RESULTS.md#judge-calibration-blind-human-labels)).
 - **Memory, not research, explains FinanceBench's ceiling.**
   - Closed book scores 80% on FinanceBench dev but 0% on the fresh first tier.
   - The full agent scores 96% (dev), 85% (test), 100% (fresh first tier) and 95% (fresh hard tier).
