@@ -31,6 +31,43 @@ The frozen system is Claude Opus 5.5 at medium effort, with filing search, page 
 
 Total API spend for all development and evaluation: about $38.
 
+## See it work
+
+One question from the hard tier, as the agent answered it in the evaluation run. Adobe filed this 10-Q on September 22, 2026, after the model's training cutoff. The filing compares the quarter only with the year before, and no fiscal 2024 filing is in the search corpus, so the earlier figure has to come from the SEC XBRL API. Tool calls are written as function calls, and their results are abridged.
+
+> By what percentage did Adobe's total revenue change from the third quarter of fiscal 2024 to the third quarter of fiscal 2026? Answer in percent, rounded to one decimal place. Use a negative number for a decrease.
+
+```text
+thinking  I'm working out when Adobe's fiscal year ends, which seems to be late November or early
+          December. That would put Q3 FY2026 around August or September 2026, which might not be
+          available yet, so I'll check.
+
+tool      list_filings(company="Adobe", fiscal_year=2026)
+result    ADOBE_2026Q3_10Q, a 10-Q of 52 pages
+
+tool      search_filings(query="total revenue three months ended", doc_name="ADOBE_2026Q3_10Q")
+result    8 hits. Page 29, three months ended August 28, 2026 and August 29, 2025:
+          "Total revenue | $6,760 | $5,988 | 13% | ..."
+
+thinking  I'm pulling the Q3 FY2024 revenue next, checking the XBRL data or the FY2024 10-Q for
+          the figure.
+
+tool      xbrl_get_facts(company="Adobe", concept="us-gaap:Revenues", fiscal_year=2024,
+                         period="quarter")
+result    3 quarters. Q3, 2024-06-01 to 2024-08-30: 5,408 million USD, from the 10-Q filed
+          2024-09-25 (accession 0000796343-24-000208)
+
+tool      calculate(expression="round((q3_2026 - q3_2024) / q3_2024 * 100, 1)",
+                    variables={"q3_2026": 6760, "q3_2024": 5408})
+result    round((6760 - 5408) / 5408 * 100, 1) = 25.0
+```
+
+> **Answer:** Adobe's total revenue rose 25.0%, from $5,408 million in Q3 fiscal 2024 (quarter ended August 30, 2024) to $6,760 million in Q3 fiscal 2026 (quarter ended August 28, 2026).
+>
+> **Sources:** `ADOBE_2026Q3_10Q` page 29, and XBRL `us-gaap:Revenues` from accession 0000796343-24-000208. **Confidence:** high.
+
+The first note shows that the model did not know whether this quarter had even been reported. The answer was graded correct by the numeric rules (gold 25.0%) and took 5 model calls, 14 seconds and $0.06. The full trace, with every model call, tool output and token count, is in [docs/demo/](docs/demo/fresh_hard_ADOBE_2026Q3_10Q_history_revenue.json). To ask your own question, see [Ask the agent](#ask-the-agent).
+
 ## Setup
 
 Requires [uv](https://docs.astral.sh/uv/) and Python 3.12.
