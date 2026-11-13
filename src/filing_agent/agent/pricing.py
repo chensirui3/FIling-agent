@@ -15,11 +15,12 @@ class Price:
     cache_write: float  # 5-minute TTL writes, 1.25x input
 
 
-# Anthropic first-party rates (pricing table cached 2026-10-06). Haiku 5.5's rates apply to
-# prompts up to 100K tokens; its cache rates follow the usual 0.1x / 1.25x of input.
+# Anthropic first-party rates, from the pricing page on 2026-11-12. Opus 5.5 and Sonnet 5.5
+# cache reads are 0.05x of input. Haiku 5.5's rates are for prompts up to 100K tokens; longer
+# prompts pay more, which is not modeled here.
 PRICES: dict[str, Price] = {
     "claude-opus-5-5": Price(input=4.00, output=20.00, cache_read=0.20, cache_write=5.00),
-    "claude-sonnet-5-5": Price(input=2.00, output=10.00, cache_read=0.20, cache_write=2.50),
+    "claude-sonnet-5-5": Price(input=2.00, output=10.00, cache_read=0.10, cache_write=2.50),
     "claude-haiku-5-5": Price(input=0.10, output=0.50, cache_read=0.01, cache_write=0.125),
 }
 

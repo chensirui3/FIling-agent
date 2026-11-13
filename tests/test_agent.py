@@ -287,6 +287,10 @@ def test_cost_uses_recorded_tokens() -> None:
     assert cost_usd(
         MODEL, input_tokens=0, output_tokens=1_000_000, cache_read_tokens=1_000_000
     ) == (pytest.approx(20.2))
+    sonnet_reads = cost_usd(
+        "claude-sonnet-5-5", input_tokens=0, output_tokens=0, cache_read_tokens=1_000_000
+    )
+    assert sonnet_reads == pytest.approx(0.10)  # 0.05x of input, as on Opus 5.5
     assert cost_usd("unknown-model", input_tokens=1, output_tokens=1) is None
 
 
