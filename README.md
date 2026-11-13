@@ -29,8 +29,6 @@ The frozen system is Claude Opus 5.5 at medium effort, with filing search, page 
 - **The grading holds up.** A blind human check of 40 judge verdicts found no lenient ones (32 of 32 "correct" verdicts agreed). Where the two differed, the judge had been the stricter.
 - **The one measured fix was rejected.** A prompt change targeting the period error fixed it, but dev dropped 96% → 90% on three judgment questions (p = 0.25). The pre-registered rule rejected it, and the negative result is reported.
 
-Total API spend for all development and evaluation: about $38.
-
 ## See it work
 
 One question from the hard tier, as the agent answered it in the evaluation run. Adobe filed this 10-Q on September 22, 2026, after the model's training cutoff. The filing compares the quarter only with the year before, and no fiscal 2024 filing is in the search corpus, so the earlier figure has to come from the SEC XBRL API. Tool calls are written as function calls, and their results are abridged.
