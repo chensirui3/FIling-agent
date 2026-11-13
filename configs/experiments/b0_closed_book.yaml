@@ -1,0 +1,5 @@
+name: b0_closed_book
+description: >-
+  Question only, no tools and no documents. Measures what the model answers from memory
+  (FinanceBench has been public since 2023), and gives the floor of the ladder.
+tools: []

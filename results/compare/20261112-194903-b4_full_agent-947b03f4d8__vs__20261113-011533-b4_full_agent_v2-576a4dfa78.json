@@ -1,0 +1,19 @@
+{
+  "run_a": "20261112-194903-b4_full_agent-947b03f4d8",
+  "run_b": "20261113-011533-b4_full_agent_v2-576a4dfa78",
+  "questions": 50,
+  "accuracy_a": 0.96,
+  "accuracy_b": 0.9,
+  "delta": -0.05999999999999994,
+  "delta_ci95": [
+    -0.14,
+    0.0
+  ],
+  "mcnemar_p": 0.25,
+  "fixed": [],
+  "broken": [
+    "financebench_id_00216",
+    "financebench_id_00299",
+    "financebench_id_00799"
+  ]
+}

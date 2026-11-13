@@ -1,0 +1,5 @@
+name: b4_effort_high
+description: >-
+  The full agent (b4_full_agent) at effort high, for the effort sweep. Effort medium is
+  b4_full_agent itself.
+effort: high

@@ -1,0 +1,17 @@
+{
+  "run_a": "20261112-200351-b5_no_calculator-3ac4f7cb62",
+  "run_b": "20261112-194903-b4_full_agent-947b03f4d8",
+  "questions": 50,
+  "accuracy_a": 0.94,
+  "accuracy_b": 0.96,
+  "delta": 0.020000000000000018,
+  "delta_ci95": [
+    0.0,
+    0.06000000000000005
+  ],
+  "mcnemar_p": 1.0,
+  "fixed": [
+    "financebench_id_00299"
+  ],
+  "broken": []
+}

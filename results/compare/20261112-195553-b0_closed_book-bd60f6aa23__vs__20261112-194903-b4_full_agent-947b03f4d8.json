@@ -1,0 +1,24 @@
+{
+  "run_a": "20261112-195553-b0_closed_book-bd60f6aa23",
+  "run_b": "20261112-194903-b4_full_agent-947b03f4d8",
+  "questions": 50,
+  "accuracy_a": 0.8,
+  "accuracy_b": 0.96,
+  "delta": 0.15999999999999992,
+  "delta_ci95": [
+    0.06000000000000005,
+    0.26
+  ],
+  "mcnemar_p": 0.0078125,
+  "fixed": [
+    "financebench_id_00299",
+    "financebench_id_00566",
+    "financebench_id_00684",
+    "financebench_id_00705",
+    "financebench_id_00799",
+    "financebench_id_01930",
+    "financebench_id_01936",
+    "financebench_id_02024"
+  ],
+  "broken": []
+}

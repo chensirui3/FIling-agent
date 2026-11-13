@@ -1,0 +1,36 @@
+{
+  "run_a": "20261112-200234-b3r_classic_rag-dc66dafda0",
+  "run_b": "20261112-194903-b4_full_agent-947b03f4d8",
+  "questions": 50,
+  "accuracy_a": 0.56,
+  "accuracy_b": 0.96,
+  "delta": 0.3999999999999999,
+  "delta_ci95": [
+    0.26,
+    0.54
+  ],
+  "mcnemar_p": 1.9073486328125e-6,
+  "fixed": [
+    "financebench_id_00215",
+    "financebench_id_00216",
+    "financebench_id_00299",
+    "financebench_id_00394",
+    "financebench_id_00566",
+    "financebench_id_00684",
+    "financebench_id_00735",
+    "financebench_id_00799",
+    "financebench_id_01009",
+    "financebench_id_01079",
+    "financebench_id_01351",
+    "financebench_id_01474",
+    "financebench_id_01930",
+    "financebench_id_01936",
+    "financebench_id_01981",
+    "financebench_id_02024",
+    "financebench_id_03031",
+    "financebench_id_04660",
+    "financebench_id_07661",
+    "financebench_id_10499"
+  ],
+  "broken": []
+}

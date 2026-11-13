@@ -1,0 +1,8 @@
+name: b3r_classic_rag
+description: >-
+  Single-shot retrieval: the question is the query, the top pages across all filings go in the
+  prompt, and the model answers in one call with no tools. Separates what the agent loop adds
+  from what the index alone provides.
+tools: []
+context: retrieved
+retrieved_k: 8

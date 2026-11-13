@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.pyright/
+.coverage
+htmlcov/
+
+# Secrets
+.env
+
+# Downloaded and derived data (FinanceBench is CC-BY-NC-4.0; filings are large)
+data/
+
+# Full agent traces stay local; run summaries and grades are committed
+results/runs/*/traces/
+results/runs/*/*.tmp
+results/ask/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,5 @@
+name: b4_full_agent_v2
+description: >-
+  b4_full_agent with prompt v2: one added step telling the agent to check the period a
+  document itself states, since filing labels can be wrong. Everything else as b4.
+prompt_version: v2

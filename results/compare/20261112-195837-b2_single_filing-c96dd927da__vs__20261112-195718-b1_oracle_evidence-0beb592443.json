@@ -1,0 +1,19 @@
+{
+  "run_a": "20261112-195837-b2_single_filing-c96dd927da",
+  "run_b": "20261112-195718-b1_oracle_evidence-0beb592443",
+  "questions": 50,
+  "accuracy_a": 0.92,
+  "accuracy_b": 0.98,
+  "delta": 0.05999999999999994,
+  "delta_ci95": [
+    0.0,
+    0.14
+  ],
+  "mcnemar_p": 0.25,
+  "fixed": [
+    "financebench_id_00799",
+    "financebench_id_01328",
+    "financebench_id_02119"
+  ],
+  "broken": []
+}

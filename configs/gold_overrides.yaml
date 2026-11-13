@@ -1,0 +1,5 @@
+# Corrections to how bare-number gold answers are read (value, kind, scale, decimals),
+# keyed by financebench_id. Filled in after human review of `fa eval gold-review`.
+# Each entry should say why, e.g.:
+#   financebench_id_00000: {scale: billions, note: "question asks for USD billions in its last sentence"}
+overrides: {}

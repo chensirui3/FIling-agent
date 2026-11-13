@@ -1,0 +1,6 @@
+name: b1_oracle_evidence
+description: >-
+  The gold evidence pages are given in the prompt, plus the calculator. The ceiling for reading
+  and reasoning once retrieval is solved.
+tools: [calculate]
+context: oracle_evidence

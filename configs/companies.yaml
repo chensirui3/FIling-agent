@@ -1,0 +1,48 @@
+# FinanceBench company names -> SEC identities.
+#
+# CIKs are explicit because fuzzy name matching against the SEC ticker file is unreliable for
+# this set: names collide ("Corning"), and acquired companies drop out of the current ticker file.
+# `fa sec verify-companies` checks every CIK against the SEC submissions API; keep `verified`
+# in sync with its result.
+verified: true  # all 40 CIKs matched SEC entity names on 2026-11-09
+companies:
+  - {name: 3M, cik: 66740, tickers: [MMM], aliases: [3M Company, Minnesota Mining and Manufacturing]}
+  - {name: AES Corporation, cik: 874761, tickers: [AES], aliases: [AES]}
+  - {name: AMD, cik: 2488, tickers: [AMD], aliases: [Advanced Micro Devices]}
+  - {name: Activision Blizzard, cik: 718877, tickers: [ATVI], note: acquired by Microsoft in October 2023}
+  - {name: Adobe, cik: 796343, tickers: [ADBE], aliases: [Adobe Systems]}
+  - {name: Amazon, cik: 1018724, tickers: [AMZN], aliases: [Amazon.com]}
+  - {name: Amcor, cik: 1748790, tickers: [AMCR], aliases: [Amcor plc]}
+  - {name: American Express, cik: 4962, tickers: [AXP], aliases: [Amex]}
+  - {name: American Water Works, cik: 1410636, tickers: [AWK], aliases: [American Water]}
+  - {name: Apple, cik: 320193, tickers: [AAPL]}
+  - {name: Best Buy, cik: 764478, tickers: [BBY]}
+  - {name: Block, cik: 1512673, tickers: [XYZ, SQ], aliases: [Square], note: renamed from Square in December 2021}
+  - {name: Boeing, cik: 12927, tickers: [BA]}
+  - {name: CVS Health, cik: 64803, tickers: [CVS], aliases: [CVS]}
+  - {name: Coca-Cola, cik: 21344, tickers: [KO], aliases: [Coca Cola, The Coca-Cola Company, Coke]}
+  - {name: Corning, cik: 24741, tickers: [GLW], aliases: [Corning Incorporated]}
+  - {name: Costco, cik: 909832, tickers: [COST], aliases: [Costco Wholesale]}
+  - {name: FedEx, cik: 1048911, tickers: [FDX], aliases: [Federal Express]}
+  - {name: Foot Locker, cik: 850209, tickers: [FL], note: acquired by Dick's Sporting Goods in 2025}
+  - {name: General Mills, cik: 40704, tickers: [GIS]}
+  - {name: Intel, cik: 50863, tickers: [INTC]}
+  - {name: JPMorgan, cik: 19617, tickers: [JPM], aliases: [JPMorgan Chase, JP Morgan, J.P. Morgan]}
+  - {name: Johnson & Johnson, cik: 200406, tickers: [JNJ], aliases: [J&J, Johnson and Johnson]}
+  - {name: Kraft Heinz, cik: 1637459, tickers: [KHC], aliases: [Kraft]}
+  - {name: Lockheed Martin, cik: 936468, tickers: [LMT], aliases: [Lockheed]}
+  - {name: MGM Resorts, cik: 789570, tickers: [MGM], aliases: [MGM Resorts International, MGM]}
+  - {name: McDonalds, cik: 63908, tickers: [MCD], aliases: ["McDonald's"]}
+  - {name: Microsoft, cik: 789019, tickers: [MSFT]}
+  - {name: Netflix, cik: 1065280, tickers: [NFLX]}
+  - {name: Nike, cik: 320187, tickers: [NKE]}
+  - {name: Oracle, cik: 1341439, tickers: [ORCL]}
+  - {name: PG&E Corporation, cik: 1004980, tickers: [PCG], aliases: [PG&E, Pacific Gas and Electric]}
+  - {name: Paypal, cik: 1633917, tickers: [PYPL], aliases: [PayPal Holdings]}
+  - {name: PepsiCo, cik: 77476, tickers: [PEP], aliases: [Pepsi]}
+  - {name: Pfizer, cik: 78003, tickers: [PFE]}
+  - {name: Salesforce, cik: 1108524, tickers: [CRM], aliases: [salesforce.com]}
+  - {name: Ulta Beauty, cik: 1403568, tickers: [ULTA], aliases: [Ulta]}
+  - {name: Verizon, cik: 732712, tickers: [VZ], aliases: [Verizon Communications]}
+  - {name: Walmart, cik: 104169, tickers: [WMT], aliases: [Wal-Mart, Wal-Mart Stores]}
+  - {name: eBay, cik: 1065088, tickers: [EBAY]}

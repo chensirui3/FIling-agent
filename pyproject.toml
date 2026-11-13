@@ -1,0 +1,68 @@
+[project]
+name = "filing-agent"
+version = "0.1.0"
+description = "A research agent for SEC filings (XBRL API, filing search, calculator), graded on FinanceBench with stage-level error analysis."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=2.6.0",
+    "bm25s>=0.3.16",
+    "fastembed>=0.9.1",
+    "httpx>=0.28.1",
+    "lxml>=6.1.3",
+    "mcp>=2.3.0",
+    "numpy>=2.5.4",
+    "pdfplumber>=0.11.10",
+    "pydantic>=2.14.3",
+    "pydantic-settings>=2.16.2",
+    "pypdfium2>=5.15.1",
+    "pyyaml>=6.0.3",
+    "rich>=15.0.0",
+    "typer>=0.28.0",
+]
+
+[project.scripts]
+fa = "filing_agent.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/filing_agent"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+# PLW1514: always pass an explicit encoding (the default on many Windows setups is not UTF-8).
+# It is a preview rule; explicit-preview-rules enables only the preview rules named here.
+preview = true
+explicit-preview-rules = true
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PLW1514"]
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Typer declares CLI options as default values; these calls are evaluated once, by design.
+extend-immutable-calls = ["typer.Option", "typer.Argument"]
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra -m 'not live'"
+markers = ["live: needs network access or API credentials (deselected by default; run with -m live)"]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.414",
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+]

@@ -1,0 +1,7 @@
+name: fresh_b4_full_agent
+description: >-
+  The main system on the fresh set: FinanceBench and fresh filings in one index
+  (contextual_fresh), filing text tools, SEC XBRL tools and the calculator. Same model, effort
+  and prompt as b4 on FinanceBench.
+dataset: fresh
+index: contextual_fresh

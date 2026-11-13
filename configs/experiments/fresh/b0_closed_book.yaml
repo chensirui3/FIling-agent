@@ -1,0 +1,6 @@
+name: fresh_b0_closed_book
+description: >-
+  Question only, no tools and no documents, on the fresh set (filings published after the
+  model's training cutoff). Memory cannot answer these; compare with b0 on FinanceBench.
+dataset: fresh
+tools: []

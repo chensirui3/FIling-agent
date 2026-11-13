@@ -1,0 +1,7 @@
+name: fresh_hard_b4_full_agent_v2
+description: >-
+  fresh_hard_b4_full_agent with prompt v2 (check the period a document itself states).
+  Everything else as fresh_hard_b4_full_agent.
+dataset: fresh_hard
+index: contextual_fresh
+prompt_version: v2

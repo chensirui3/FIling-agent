@@ -1,0 +1,4 @@
+name: b5_no_calculator
+description: >-
+  The main system without the calculator. Measures what exact arithmetic is worth.
+tools: [resolve_company, list_filings, search_filings, read_filing_page, xbrl_find_concepts, xbrl_get_facts]

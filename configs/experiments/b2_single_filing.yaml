@@ -1,0 +1,6 @@
+name: b2_single_filing
+description: >-
+  The agent is limited to the question's own filing (search, read, calculator; no XBRL).
+  Removes the cost of picking the filing.
+tools: [resolve_company, list_filings, search_filings, read_filing_page, calculate]
+corpus: gold_filing

@@ -1,0 +1,55 @@
+# Review verdicts for the fresh questions, keyed by question id.
+#
+#   verdict:   accept | reject | fix      (fix replaces the fields given below it)
+#   question:  corrected question text    (fix only)
+#   answer:    corrected gold answer      (fix only)
+#   candidate: n                          (text questions: use drafted candidate n instead)
+#   reviewer:  who decided
+#   note:      why
+#
+# Human review (project owner, 2026-11-12): the 20 items on results/fresh/review_sheet.md
+# (10 numeric, 10 text) were checked against the filings; all were fine, no changes.
+#
+# First pass (Claude, 2026-11-12): all 38 drafted text questions were read against their
+# source pages. Every other text question was accepted as drafted. Entries marked "accept"
+# below record a check that was made, not a change.
+reviews:
+  fresh_AMERICANWATERWORKS_2026Q3_10Q_text:
+    verdict: accept
+    candidate: 2
+    reviewer: claude (first pass)
+    note: >-
+      Candidate 1 asked why the Illinois subsidiary reduced its "first-step" request; its
+      answer blurred the two-step request with its first step, and the period wording was
+      awkward. Candidate 2 (Missouri rate case drivers and return on equity) is clear.
+  fresh_JOHNSON_JOHNSON_2026Q3_10Q_text:
+    verdict: fix
+    question: >-
+      What drove the operational sales decline in Johnson & Johnson's Pulmonary Hypertension
+      products in the fiscal third quarter ended September 27, 2026, compared with the
+      prior-year quarter?
+    reviewer: claude (first pass)
+    note: >-
+      The draft said "the period ended September 27, 2026", which could mean the quarter or
+      the nine months. The page's narrative follows the third-quarter sales table: page 44
+      shows the (19.2)% operational change, page 43 (nine months) shows (3.0)%.
+  fresh_VERIZON_2026Q3_10Q_text:
+    verdict: accept
+    reviewer: claude (first pass)
+    note: >-
+      The page lists drivers for both the three and nine months; the quoted bullets sit under
+      "The increase during the three months ended September 30, 2026", matching the question.
+  fresh_JPMORGAN_2026Q3_10Q_text:
+    verdict: accept
+    reviewer: claude (first pass)
+    note: The page is headed "Year-to-date results", matching the nine-month question.
+  fresh_AMERICANEXPRESS_2026Q3_10Q_text:
+    verdict: accept
+    reviewer: claude (first pass)
+    note: >-
+      The answer's second sentence (model enhancements behind the reserve release) is not in
+      the quote but is on the same page.
+  fresh_APPLE_2026_10K_text:
+    verdict: accept
+    reviewer: claude (first pass)
+    note: The 39.3% and 36.8% gross margin percentages come from the table on the same page.

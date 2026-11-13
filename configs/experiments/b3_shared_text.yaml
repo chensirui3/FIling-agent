@@ -1,0 +1,4 @@
+name: b3_shared_text
+description: >-
+  Text-only agent over all 358 filings (search, read, calculator; no XBRL).
+tools: [resolve_company, list_filings, search_filings, read_filing_page, calculate]

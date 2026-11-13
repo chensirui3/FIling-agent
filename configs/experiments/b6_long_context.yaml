@@ -1,0 +1,6 @@
+name: b6_long_context
+description: >-
+  The whole parsed text of the question's filing in the prompt, no tools. The strongest simple
+  baseline; expensive (roughly 100-200K input tokens per question).
+tools: []
+context: full_filing

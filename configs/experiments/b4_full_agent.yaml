@@ -1,0 +1,3 @@
+name: b4_full_agent
+description: >-
+  The main system: all filings, filing text tools, SEC XBRL tools and the calculator.

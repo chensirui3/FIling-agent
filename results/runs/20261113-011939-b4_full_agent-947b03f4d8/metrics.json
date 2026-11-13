@@ -1,0 +1,98 @@
+{
+  "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+  "experiment": "b4_full_agent",
+  "questions": 100,
+  "rows": 100,
+  "graded": 100,
+  "pending_judge": 0,
+  "labels": {
+    "correct": 85,
+    "incorrect": 15,
+    "refusal": 0,
+    "no_answer": 0
+  },
+  "accuracy": 0.85,
+  "accuracy_ci95": [
+    0.7671644040916763,
+    0.9069401471634337
+  ],
+  "accuracy_per_rep": {
+    "1": 0.85
+  },
+  "refusal_rate": 0.0,
+  "no_answer_rate": 0.0,
+  "by_question_type": {
+    "domain-relevant": {
+      "n": 33,
+      "correct": 27,
+      "accuracy": 0.8181818181818182
+    },
+    "metrics-generated": {
+      "n": 34,
+      "correct": 33,
+      "accuracy": 0.9705882352941176
+    },
+    "novel-generated": {
+      "n": 33,
+      "correct": 25,
+      "accuracy": 0.7575757575757576
+    }
+  },
+  "by_kind": {},
+  "by_doc_type": {
+    "10k": {
+      "n": 75,
+      "correct": 67,
+      "accuracy": 0.8933333333333333
+    },
+    "10q": {
+      "n": 10,
+      "correct": 6,
+      "accuracy": 0.6
+    },
+    "8k": {
+      "n": 5,
+      "correct": 5,
+      "accuracy": 1.0
+    },
+    "earnings": {
+      "n": 10,
+      "correct": 7,
+      "accuracy": 0.7
+    }
+  },
+  "by_method": {
+    "judge": {
+      "n": 64,
+      "correct": 51,
+      "accuracy": 0.796875
+    },
+    "numeric": {
+      "n": 36,
+      "correct": 34,
+      "accuracy": 0.9444444444444444
+    }
+  },
+  "numeric_sensitivity": {
+    "n": 36.0,
+    "strict": 0.9444444444444444,
+    "default": 0.9444444444444444,
+    "lenient": 0.9444444444444444
+  },
+  "needs_review": 7,
+  "infra_failures": 0,
+  "cost_usd": {
+    "agent_total": 6.1704076,
+    "agent_per_row": 0.061704076,
+    "judge_total": 0.291222
+  },
+  "wall_s": {
+    "mean": 10.259300000000001,
+    "p90": 15.766000000000002
+  },
+  "tool_calls": {
+    "mean": 3.64,
+    "errors": 18.0,
+    "internal_errors": 0.0
+  }
+}

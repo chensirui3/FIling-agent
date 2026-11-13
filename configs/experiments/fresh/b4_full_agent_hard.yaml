@@ -1,0 +1,8 @@
+name: fresh_hard_b4_full_agent
+description: >-
+  The main system on the harder fresh tier: segment, product and region figures (not in the
+  SEC XBRL API), changes against two years earlier (only in the XBRL API), and standard ratios
+  with no formula given, all with periods named in the company's fiscal terms. Same model,
+  effort, prompt, tools and index as fresh_b4_full_agent.
+dataset: fresh_hard
+index: contextual_fresh
