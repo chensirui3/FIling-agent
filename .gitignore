@@ -16,8 +16,9 @@ htmlcov/
 # Secrets
 .env
 
-# Downloaded and derived data (FinanceBench is CC-BY-NC-4.0; filings are large)
-data/
+# Downloaded and derived data (FinanceBench is CC-BY-NC-4.0; filings are large).
+# Anchored to the root: a bare "data/" also hid the src/filing_agent/data/ package.
+/data/
 
 # Full agent traces stay local; run summaries and grades are committed
 results/runs/*/traces/
