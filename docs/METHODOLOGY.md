@@ -11,6 +11,8 @@ The agent has seven tools: `resolve_company`, `list_filings`, `search_filings`, 
 - **Scale is shown explicitly.** XBRL values come in whole units with a display string beside them (`1577000000 USD` reads as `1,577 million USD`), since scale mistakes are a classic failure.
 - **Settings restrict what tools can see.** A context can hide XBRL entirely (text-only baselines) or limit search and reading to a given set of filings (the single-filing baseline). The tools have no path to the benchmark's question or answer files.
 
+- **An eighth tool is opt-in.** `fetch_filing` downloads a 10-K or 10-Q from SEC EDGAR into a separate library that is searched next to the built index (`--live` on `fa ask`, `fa mcp serve` and `fa tools run`). No evaluation config includes it, and without it the system prompt is unchanged, so the frozen system is the same. Search results from the two indexes are merged by BM25 score, which is only roughly comparable between them.
+
 Run any tool by hand with `fa tools run <name> '<json input>'`; `fa tools list` shows all of them.
 
 ## Agent loop

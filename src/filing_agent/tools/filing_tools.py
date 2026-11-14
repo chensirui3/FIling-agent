@@ -14,7 +14,9 @@ from pydantic import BaseModel, Field
 from filing_agent.config import Settings, get_settings
 from filing_agent.corpus.chunk import DOC_TYPE_LABELS, STATEMENT_LABELS, DocInfo
 from filing_agent.corpus.index import FilingIndex, Filters, Mode
+from filing_agent.corpus.live import LiveError, LiveLibrary, fetch_live
 from filing_agent.corpus.parse import ParsedDoc, load_parsed
+from filing_agent.fresh.filings import company_keys
 from filing_agent.sec.companies import CompanyRegistry, UnknownCompanyError
 from filing_agent.sec.http import CacheMiss, SecConfigError, SecHttpError
 from filing_agent.sec.service import SecService
@@ -27,6 +29,8 @@ DocType = Literal["10k", "10q", "8k", "earnings", "10k_annualreport"]
 TEXT_TOOLS = ("resolve_company", "list_filings", "search_filings", "read_filing_page")
 XBRL_TOOLS = ("xbrl_find_concepts", "xbrl_get_facts")
 ALL_TOOLS = (*TEXT_TOOLS, *XBRL_TOOLS, "calculate")
+# Opt-in: downloads filings from SEC EDGAR. Never part of an evaluation config.
+LIVE_TOOLS = ("fetch_filing",)
 
 _SEC_ERRORS = (UnknownCompanyError, UnknownConceptError, CacheMiss, SecConfigError, SecHttpError)
 
@@ -41,6 +45,7 @@ class ToolContext:
     sec_loader: Callable[[], SecService] | None = None
     allowed_docs: frozenset[str] | None = None
     search_mode: Mode = "bm25"
+    live: LiveLibrary | None = None
     _index: FilingIndex | None = field(default=None, repr=False)
     _sec: SecService | None = field(default=None, repr=False)
     _pages: OrderedDict[str, ParsedDoc] = field(default_factory=OrderedDict, repr=False)
@@ -55,6 +60,7 @@ class ToolContext:
         xbrl: bool = True,
         allowed_docs: Iterable[str] | None = None,
         sec_offline: bool | None = None,
+        live: bool = False,
     ) -> ToolContext:
         s = settings or get_settings()
         return cls(
@@ -63,6 +69,7 @@ class ToolContext:
             index_loader=lambda: FilingIndex.load(s.index_dir / index_name),
             sec_loader=(lambda: SecService.from_settings(s, offline=sec_offline)) if xbrl else None,
             allowed_docs=frozenset(allowed_docs) if allowed_docs is not None else None,
+            live=LiveLibrary(s.data_dir / "live") if live else None,
         )
 
     @property
@@ -81,11 +88,15 @@ class ToolContext:
 
     def docs(self) -> dict[str, DocInfo]:
         docs = self.index.docs
+        if self.live is not None:
+            docs = {**self.live.docs(), **docs}
         if self.allowed_docs is None:
             return docs
         return {name: info for name, info in docs.items() if name in self.allowed_docs}
 
     def page_count(self, doc_name: str) -> int:
+        if self.live is not None and doc_name in self.live.filings:
+            return self.live.page_count(doc_name)
         if self._page_counts is None:
             counts: dict[str, int] = {}
             for chunk in self.index.chunks:
@@ -102,7 +113,10 @@ class ToolContext:
         if cached is not None:
             self._pages.move_to_end(doc_name)
             return cached
-        doc = load_parsed(self.parsed_dir, doc_name)
+        if self.live is not None and doc_name in self.live.filings:
+            doc = self.live.parsed(doc_name)
+        else:
+            doc = load_parsed(self.parsed_dir, doc_name)
         self._pages[doc_name] = doc
         while len(self._pages) > 4:
             self._pages.popitem(last=False)
@@ -156,6 +170,16 @@ class XbrlGetFactsInput(BaseModel):
     )
     policy: Literal["first_reported", "latest"] | None = Field(
         None, description="Value as first reported (default) or the latest restatement."
+    )
+
+
+class FetchFilingInput(BaseModel):
+    company: str = Field(description="Company name, ticker or CIK.")
+    form: Literal["10-K", "10-Q"] = Field(description="Annual (10-K) or quarterly (10-Q).")
+    period_ending: str | None = Field(
+        None,
+        description="When the reported period ends, as YYYY or YYYY-MM (2024, 2024-09). "
+        "Omit for the latest filing of this form.",
     )
 
 
@@ -239,9 +263,11 @@ def _search_filings(ctx: ToolContext, args: SearchFilingsInput) -> dict[str, Any
         doc_types=frozenset({args.doc_type}) if args.doc_type else None,
         periods=frozenset({args.fiscal_year}) if args.fiscal_year is not None else None,
     )
-    hits = ctx.index.search(
-        args.query, mode=ctx.search_mode, top_k=args.top_k or 8, filters=filters
-    )
+    top_k = args.top_k or 8
+    hits = ctx.index.search(args.query, mode=ctx.search_mode, top_k=top_k, filters=filters)
+    if ctx.live is not None:  # scores of the two indexes are only roughly comparable
+        hits += ctx.live.search(args.query, top_k=top_k, filters=filters)
+        hits = sorted(hits, key=lambda h: -h.score)[:top_k]
     if not hits:
         return {"results": [], "note": "No matching pages. Try other words or fewer filters."}
     return {
@@ -276,6 +302,43 @@ def _read_filing_page(ctx: ToolContext, args: ReadFilingPageInput) -> dict[str, 
             }
         )
     return {"doc_name": args.doc_name, "pages_in_filing": doc.n_pages, "pages": pages}
+
+
+def _fetch_filing(ctx: ToolContext, args: FetchFilingInput) -> dict[str, Any]:
+    if ctx.live is None:
+        raise ToolError("Fetching filings from EDGAR is not enabled in this setting.")
+    company = ctx.registry.resolve(args.company)
+    names: dict[str, list[str]] = {}
+    for info in ctx.index.docs.values():
+        names.setdefault(info.company, []).append(info.doc_name)
+    try:
+        filing, status = fetch_live(
+            ctx.sec.client,
+            company,
+            ctx.live,
+            form=args.form,
+            period_ending=args.period_ending,
+            keys=company_keys(names),
+            known_docs=ctx.index.docs.keys(),
+        )
+    except LiveError as exc:
+        raise ToolError(str(exc)) from exc
+    ctx._page_counts = None
+    out: dict[str, Any] = {
+        "status": status,
+        "doc_name": filing.doc_name,
+        "company": filing.company,
+        "type": filing.form,
+        "fiscal_year": filing.fiscal_year,
+        "fiscal_period": filing.fiscal_period,
+        "period_ending": filing.report_date.isoformat() if filing.report_date else None,
+        "filed": filing.filing_date.isoformat(),
+        "accession": filing.accession,
+        "pages": ctx.page_count(filing.doc_name),
+    }
+    if filing.fiscal_note:
+        out["note"] = filing.fiscal_note
+    return out
 
 
 def _find_concepts(ctx: ToolContext, args: XbrlFindConceptsInput) -> dict[str, Any]:
@@ -403,6 +466,14 @@ DESCRIPTIONS = {
         "million USD). Filter by fiscal_year and period. Returns values as first reported unless "
         "policy is 'latest'."
     ),
+    "fetch_filing": (
+        "Download a 10-K or 10-Q from SEC EDGAR and make it available to list_filings, "
+        "search_filings and read_filing_page. Use it when list_filings does not show the "
+        "filing you need. Give the form and when the reported period ends (YYYY, or YYYY-MM "
+        "for a quarter); omit the period for the latest filing. Returns the new doc_name, "
+        "its fiscal year and period, and its page count. Works for filings with inline "
+        "XBRL, roughly fiscal 2019 onward."
+    ),
     "calculate": (
         "Evaluate arithmetic exactly. Use it for every computed figure. Give each input number "
         "a name in variables and use the names in the expression, e.g. expression "
@@ -462,6 +533,14 @@ def build_tools(ctx: ToolContext, names: Iterable[str] = ALL_TOOLS) -> ToolRegis
             XbrlGetFactsInput,
             lambda a: _get_facts(ctx, a),
             9_000,
+            _SEC_ERRORS,
+        ),
+        "fetch_filing": Tool(
+            "fetch_filing",
+            DESCRIPTIONS["fetch_filing"],
+            FetchFilingInput,
+            lambda a: _fetch_filing(ctx, a),
+            2_000,
             _SEC_ERRORS,
         ),
         "calculate": Tool(

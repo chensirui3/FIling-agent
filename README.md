@@ -174,6 +174,7 @@ uv run fa ask "What is the FY2018 capital expenditure amount (in USD millions) f
 uv run fa ask "..." --no-xbrl                  # text tools only
 uv run fa ask "..." --doc 3M_2018_10K          # restrict the agent to one filing
 uv run fa ask "..." --effort high --model claude-sonnet-5-5
+uv run fa ask "..." --live                     # may download any 10-K or 10-Q from SEC EDGAR
 ```
 
 Each tool call prints as it happens. The full trace (model calls, tool calls, tokens, cost, transcript) is saved under `results/ask/`. How the loop works is in [docs/METHODOLOGY.md](docs/METHODOLOGY.md).
@@ -191,6 +192,18 @@ uv run fa tools run calculate '{"expression": "capex / revenue * 100", "variable
 
 `fa data download --pdfs all` fetches all 368 PDFs (705 MB) for the shared-corpus setting. Every file is checked against its git blob SHA at a pinned FinanceBench commit.
 
+### Filings on demand
+
+The search index covers a fixed set of filings. With `--live`, an eighth tool, `fetch_filing`, downloads any 10-K or 10-Q of a registered company from SEC EDGAR, parses it and makes it available to the list, search and read tools within a few seconds:
+
+```bash
+uv run fa tools run fetch_filing '{"company": "Nike", "form": "10-K", "period_ending": "2024"}' --live
+```
+
+- Fetched filings are kept in `data/live/` with their accession number and SHA-256, and stay available in later sessions.
+- The built index is never changed, and evaluation configs never include this tool, so results are unaffected.
+- It needs filings with inline XBRL cover facts (roughly fiscal 2019 onward) and the 40 companies in `configs/companies.yaml`.
+
 ## MCP server
 
 The seven tools are served over MCP, so Claude Code, Claude Desktop or any MCP client can research filings with them. The server lists the agent's exact tool definitions and runs calls through the same code; `tests/test_mcp_server.py` checks this parity.
@@ -199,6 +212,7 @@ The seven tools are served over MCP, so Claude Code, Claude Desktop or any MCP c
 uv run fa mcp serve                                   # stdio, which desktop clients launch
 uv run fa mcp serve --transport http --port 8000      # streamable HTTP at http://127.0.0.1:8000/mcp
 uv run fa mcp serve --sec-offline --index contextual  # cached SEC data only; FinanceBench filings only
+uv run fa mcp serve --live                            # adds fetch_filing: any 10-K or 10-Q from SEC EDGAR
 ```
 
 The server needs the parsed filings and an index (`fa data parse`, `fa fresh fetch`, `fa index build`). It uses `SEC_USER_AGENT` from `.env` for live SEC data.

@@ -219,6 +219,13 @@ def _select_one(
     filing = latest_periodic(submissions.filings, filed_after, as_of)
     if filing is None:
         return SelectOutcome(company.name, reason="no 10-K or 10-Q filed in the window")
+    return pin_filing(client, company, filing, keys)
+
+
+def pin_filing(
+    client: SecClient, company: Company, filing: Filing, keys: Mapping[str, str]
+) -> SelectOutcome:
+    """Download one filing's primary document and record its fiscal period, name and hash."""
     data = client.get_bytes(filing.url)
     html = parse_html(data)
     try:

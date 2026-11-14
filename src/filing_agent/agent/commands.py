@@ -18,7 +18,13 @@ from filing_agent.agent.client import CREDENTIALS_HINT, make_client
 from filing_agent.agent.loop import Agent, AgentConfig, Effort
 from filing_agent.agent.trace import AgentRun, ModelCall, ToolCall
 from filing_agent.config import get_settings
-from filing_agent.tools.filing_tools import ALL_TOOLS, TEXT_TOOLS, ToolContext, build_tools
+from filing_agent.tools.filing_tools import (
+    ALL_TOOLS,
+    LIVE_TOOLS,
+    TEXT_TOOLS,
+    ToolContext,
+    build_tools,
+)
 
 console = Console()
 
@@ -68,6 +74,9 @@ def ask_command(
     effort: EffortChoice = typer.Option(EffortChoice.medium, help="Thinking effort."),
     xbrl: bool = typer.Option(True, "--xbrl/--no-xbrl", help="Give the agent the XBRL tools."),
     doc: list[str] | None = typer.Option(None, help="Restrict the agent to these filings."),
+    live: bool = typer.Option(
+        False, "--live", help="Let the agent download any 10-K or 10-Q from EDGAR."
+    ),
     max_turns: int = typer.Option(16, min=1, help="Model turns before a forced answer."),
     fallbacks: bool = typer.Option(
         True,
@@ -84,7 +93,16 @@ def ask_command(
         console.print(f"[red]{CREDENTIALS_HINT}[/]")
         raise typer.Exit(code=1) from None
     names = ALL_TOOLS if xbrl else (*TEXT_TOOLS, "calculate")
-    tools = build_tools(ToolContext.from_settings(settings, xbrl=xbrl, allowed_docs=doc), names)
+    if live:
+        names = (*names, *LIVE_TOOLS)
+    context = ToolContext.from_settings(
+        settings,
+        xbrl=xbrl or live,
+        allowed_docs=doc,
+        live=live,
+        sec_offline=False if live else None,
+    )
+    tools = build_tools(context, names)
     config = AgentConfig(
         model=model or settings.agent_model,
         effort=cast(Effort, effort.value),

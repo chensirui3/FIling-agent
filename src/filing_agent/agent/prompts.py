@@ -62,6 +62,11 @@ def system_prompt(tools: Collection[str], version: str = PROMPT_VERSION) -> str:
             "a page with read_filing_page before relying on a number from it: check the units "
             "line (thousands or millions) and which column holds which period."
         )
+    if "fetch_filing" in tools:
+        steps.append(
+            "If list_filings does not show a filing for the period you need, fetch_filing "
+            "downloads that 10-K or 10-Q from SEC EDGAR and makes it searchable."
+        )
     if "calculate" in tools:
         steps.append("Do every computation with calculate, naming each input, even simple ones.")
     steps.append(

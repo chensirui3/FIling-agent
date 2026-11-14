@@ -9,7 +9,13 @@ import typer
 
 from filing_agent.config import get_settings
 from filing_agent.mcp_server import build_server, serve_stdio
-from filing_agent.tools.filing_tools import ToolContext, build_tools
+from filing_agent.tools.filing_tools import (
+    ALL_TOOLS,
+    LIVE_TOOLS,
+    TEXT_TOOLS,
+    ToolContext,
+    build_tools,
+)
 
 mcp_app = typer.Typer(help="Serve the agent's tools over MCP.", no_args_is_help=True)
 
@@ -31,15 +37,19 @@ def serve_command(
         "--sec-offline/--sec-online",
         help="Answer SEC requests only from the cache (default: FA_SEC_OFFLINE).",
     ),
+    live: bool = typer.Option(
+        False, "--live", help="Add fetch_filing: download any 10-K or 10-Q from EDGAR."
+    ),
     host: str = typer.Option("127.0.0.1", help="HTTP host."),
     port: int = typer.Option(8000, help="HTTP port."),
 ) -> None:
     """Serve the seven research tools over MCP. With stdio, stdout carries the protocol only."""
     settings = get_settings()
     context = ToolContext.from_settings(
-        settings, index_name=index, xbrl=xbrl, sec_offline=sec_offline
+        settings, index_name=index, xbrl=xbrl or live, sec_offline=sec_offline, live=live
     )
-    server = build_server(build_tools(context))
+    names = ALL_TOOLS if xbrl else (*TEXT_TOOLS, "calculate")
+    server = build_server(build_tools(context, (*names, *LIVE_TOOLS) if live else names))
     if transport is Transport.stdio:
         anyio.run(serve_stdio, server)
         return
