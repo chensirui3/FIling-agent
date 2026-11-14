@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 334" width="600" height="334" role="img" aria-label="Baseline ladder on FinanceBench dev (50 questions, Claude Opus 5.5)" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">
+<rect width="600" height="334" rx="8" fill="#ffffff"/>
+<text x="16" y="26" font-size="15" font-weight="600" fill="#1f2328">Baseline ladder on FinanceBench dev (50 questions, Claude Opus 5.5)</text>
+<text x="16" y="45" fill="#59636e">Accuracy with 95% Wilson intervals; one run per configuration</text>
+<line x1="274.0" y1="58" x2="274.0" y2="304" stroke="#d1d9e0" stroke-width="1"/><text x="274.0" y="322" text-anchor="middle" fill="#59636e">0%</text>
+<line x1="359.0" y1="58" x2="359.0" y2="304" stroke="#d1d9e0" stroke-width="1"/><text x="359.0" y="322" text-anchor="middle" fill="#59636e">25%</text>
+<line x1="444.0" y1="58" x2="444.0" y2="304" stroke="#d1d9e0" stroke-width="1"/><text x="444.0" y="322" text-anchor="middle" fill="#59636e">50%</text>
+<line x1="529.0" y1="58" x2="529.0" y2="304" stroke="#d1d9e0" stroke-width="1"/><text x="529.0" y="322" text-anchor="middle" fill="#59636e">75%</text>
+<line x1="614.0" y1="58" x2="614.0" y2="304" stroke="#d1d9e0" stroke-width="1"/><text x="614.0" y="322" text-anchor="middle" fill="#59636e">100%</text>
+<text x="262" y="80.0" text-anchor="end" fill="#1f2328">Closed book (question only)</text>
+<rect x="274" y="66" width="272.0" height="20" rx="2" fill="#8cb4e2"/>
+<path d="M501.7 76.0H575.8M501.7 71.0v10M575.8 71.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="80.0" fill="#1f2328">80% (66–89%)</text>
+<text x="262" y="114.0" text-anchor="end" fill="#1f2328">Classic RAG (one search, one call)</text>
+<rect x="274" y="100" width="190.4" height="20" rx="2" fill="#8cb4e2"/>
+<path d="M417.8 110.0H508.0M417.8 105.0v10M508.0 105.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="114.0" fill="#1f2328">56% (42–69%)</text>
+<text x="262" y="148.0" text-anchor="end" fill="#1f2328">Text tools, all filings</text>
+<rect x="274" y="134" width="312.8" height="20" rx="2" fill="#8cb4e2"/>
+<path d="M549.9 144.0H603.3M549.9 139.0v10M603.3 139.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="148.0" fill="#1f2328">92% (81–97%)</text>
+<text x="262" y="182.0" text-anchor="end" fill="#1f2328">Text tools, the right filing given</text>
+<rect x="274" y="168" width="312.8" height="20" rx="2" fill="#8cb4e2"/>
+<path d="M549.9 178.0H603.3M549.9 173.0v10M603.3 173.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="182.0" fill="#1f2328">92% (81–97%)</text>
+<text x="262" y="216.0" text-anchor="end" fill="#1f2328">Full agent without the calculator</text>
+<rect x="274" y="202" width="319.6" height="20" rx="2" fill="#8cb4e2"/>
+<path d="M558.9 212.0H607.0M558.9 207.0v10M607.0 207.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="216.0" fill="#1f2328">94% (83–98%)</text>
+<text x="262" y="250.0" text-anchor="end" fill="#1f2328" font-weight="600">Full agent</text>
+<rect x="274" y="236" width="326.4" height="20" rx="2" fill="#0969da"/>
+<path d="M568.2 246.0H610.2M568.2 241.0v10M610.2 241.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="250.0" fill="#1f2328" font-weight="600">96% (86–99%)</text>
+<text x="262" y="284.0" text-anchor="end" fill="#1f2328">Evidence pages given (ceiling)</text>
+<rect x="274" y="270" width="333.2" height="20" rx="2" fill="#8cb4e2"/>
+<path d="M578.3 280.0H612.8M578.3 275.0v10M612.8 275.0v10" stroke="#1f2328" stroke-width="1.5" fill="none"/>
+<text x="628" y="284.0" fill="#1f2328">98% (89–100%)</text>
+</svg>

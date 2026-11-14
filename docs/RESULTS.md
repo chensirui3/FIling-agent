@@ -42,7 +42,7 @@ Medium versus high: identical on every question. Medium versus low: two question
 
 | Config | What the model gets | Accuracy (95% CI) | Refused | $/answer |
 |---|---|---|---|---|
-| `b0_closed_book` | the question only | **80%** (67–89%) | 2% | $0.017 |
+| `b0_closed_book` | the question only | **80%** (66–89%) | 2% | $0.017 |
 | `b3r_classic_rag` | top-8 pages from one search, one call | 56% (42–69%) | **34%** | $0.035 |
 | `b3_shared_text` | text tools, all filings | 92% (81–97%) | 0% | $0.036 |
 | `b2_single_filing` | text tools, the gold filing only | 92% (81–97%) | 0% | $0.053 |

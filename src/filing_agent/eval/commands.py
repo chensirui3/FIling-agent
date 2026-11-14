@@ -30,6 +30,7 @@ from filing_agent.eval.analysis_cli import (
     report_command,
     table_command,
 )
+from filing_agent.eval.chart import chart_command
 from filing_agent.eval.datasets import all_questions
 from filing_agent.eval.gold import load_overrides, numeric_gold
 from filing_agent.eval.grade_run import load_grades
@@ -43,6 +44,7 @@ eval_app.command("grade")(grade_command)
 eval_app.command("report")(report_command)
 eval_app.command("compare")(compare_command)
 eval_app.command("table")(table_command)
+eval_app.command("chart")(chart_command)
 console = Console()
 
 

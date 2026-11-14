@@ -16,18 +16,29 @@ The tools are also exposed as an MCP server.
 
 The frozen system is Claude Opus 5.5 at medium effort, with filing search, page reading, SEC XBRL facts and a calculator. Each row is one run; 95% Wilson intervals are in parentheses.
 
-| Evaluation | Closed book (no tools) | Full agent |
-|---|---|---|
-| FinanceBench dev (50 questions) | 80% | 96% (86–99%) |
-| FinanceBench test (100) | not run | **85%** (76.7–90.7%); 88% after correcting 2 wrong golds and a judge error |
-| Fresh benchmark: filings published after the model's training cutoff (114) | **0%** (all refusals) | 100% (96.7–100%) |
-| Fresh hard tier: segment figures, two-year changes, ratios without formulas (75) | not run | 94.7% (87.1–97.9%); 98.7% counting the readings 3 ambiguous questions allowed |
+| Evaluation | Full agent |
+|---|---|
+| FinanceBench dev (50 questions) | 96% (86–99%) |
+| FinanceBench test (100) | **85%** (76.7–90.7%); 88% after correcting 2 wrong golds and a judge error |
+| Fresh benchmark: filings published after the model's training cutoff (114) | 100% (96.7–100%) |
+| Fresh hard tier: segment figures, two-year changes, ratios without formulas (75) | 94.7% (87.1–97.9%); 98.7% counting the readings 3 ambiguous questions allowed |
+
+A memorization check ran the same model closed book, with no tools and no documents, once on each kind of question:
+
+| Memorization check | Closed book |
+|---|---|
+| FinanceBench dev (50 questions) | 80% |
+| Fresh benchmark (114) | **0%** (all refusals) |
 
 - **FinanceBench is largely memorized.** With no documents, the model answers 80% of dev questions, but none about filings published after its training cutoff. The fresh benchmark ([docs/FRESH.md](docs/FRESH.md)) is built from 38 post-cutoff 10-Ks and 10-Qs, with golds taken from the filings' own XBRL tags and checked against the SEC API.
 - **The agent's accuracy is research, not recall.** It scores 100% on the post-cutoff questions. It uses the XBRL API only when the figure exists nowhere else (23 of 25 two-year-change questions, against 2 of 114 in the first tier).
 - **Almost every failure is on the question side.** Of 21 failures in 339 questions, 2 are agent errors (both used a source for the wrong period). The rest are unstated definitions, judgment calls, ambiguous questions, wrong golds and one judge error. There are no retrieval, table-reading or arithmetic failures.
 - **The grading holds up.** A blind human check of 40 judge verdicts found no lenient ones (32 of 32 "correct" verdicts agreed). Where the two differed, the judge had been the stricter.
 - **The one measured fix was rejected.** A prompt change targeting the period error fixed it, but dev dropped 96% → 90% on three judgment questions (p = 0.25). The pre-registered rule rejected it, and the negative result is reported.
+
+The baseline ladder on dev shows where the accuracy comes from. Tools add 12 to 16 points over memory, a single search without follow-up does worse than memory, and the full agent is within one question of being handed the evidence pages ([docs/RESULTS.md](docs/RESULTS.md) has the paired tests).
+
+![Baseline ladder on FinanceBench dev: closed book 80%, classic RAG 56%, text tools 92%, full agent 96%, evidence pages given 98%](docs/figures/dev_ladder.svg)
 
 ## See it work
 
@@ -144,6 +155,7 @@ The eight baseline configs, from closed-book to long-context, are described in [
 uv run fa eval grade <run_id>              # numeric rules, then the LLM judge -> grades.jsonl
 uv run fa eval report <run_id>             # accuracy with 95% CI, breakdowns, cost, latency -> metrics.json
 uv run fa eval compare <run_a> <run_b>     # paired change with 95% CI, McNemar p, fixed/broken questions
+uv run fa eval chart                       # redraw the baseline ladder chart from the saved runs
 uv run fa eval grader-check                # known-good and known-bad answers through the numeric grader
 uv run fa eval gold-review                 # how each bare-number gold is read -> results/labels/gold_review.csv
 ```
@@ -216,10 +228,10 @@ claude mcp add filing-agent -- uv run --directory "/path/to/filing agent" fa mcp
   - In a blind check of 40 of its verdicts, a person agreed with all 32 it called correct and 3 of 7 it called incorrect: 93.7% weighted agreement, kappa 0.55.
   - It is not lenient. It is stricter than a person where the answer key uses an unusual formula, so the strict scores are conservative.
 - **The fresh text questions were drafted by Claude.** They were checked automatically, read in a first pass, and sampled by a person. The same model family answers them, which may favor its wording; the numeric two-thirds are template-based.
-- **Not run:**
-  - the whole-filing long-context baseline (about $20–45)
-  - dense or hybrid retrieval at corpus scale (about 5 hours of CPU embedding)
-  - closed book on the test split
+- **Left out, and why:**
+  - **The whole-filing long-context baseline.** At roughly 200K tokens per question, it would have cost about as much as every other run combined.
+  - **Dense and hybrid retrieval at corpus scale.** Both are implemented, but keyword search produced no retrieval failures in 339 questions, so there was nothing for them to fix.
+  - **Diagnostic baselines on the test split.** Closed book and the other baselines ran on dev only; test was kept for the frozen system.
 
 ## Development
 
