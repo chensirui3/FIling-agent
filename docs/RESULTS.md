@@ -283,6 +283,23 @@ The drop is therefore most likely run-to-run variation, but the rule was fixed i
 **Cost:** $5.25 (dev under v2 $3.22 with judging; history questions $1.71; Ulta reruns $0.31).
 
 
+## How far the XBRL API alone goes (metric questions)
+
+FinanceBench has 50 "metrics-generated" questions: statement figures and ratios built from them. `fa eval xbrl-use` reads the saved traces of the frozen agent (16 of these questions are in dev, 34 in test) and records where each answer's evidence came from. It costs nothing: no model is called.
+
+| Evidence the agent used | Questions | Correct |
+|---|---|---|
+| XBRL API only (no filing text searched or read) | 35 | 34 |
+| Filing text only | 14 | 14 |
+| Both | 1 | 1 |
+
+- **At least 34 of the 50 (68%) are answerable from the XBRL API alone**, because the agent answered them correctly that way. By answer type: 15 of 18 dollar amounts, 10 of 17 ratios and 9 of 15 percentages.
+- **This is a lower bound.** In 13 of the 14 text-only answers the agent never tried the API, so those questions may be answerable from it too. In the other one, and in the mixed one, it tried first: the facts it asked for did not match its period filters (both are Nike, whose fiscal year ends in May).
+- **The one XBRL-only miss is a definition, not missing data.** AES's return on assets used net loss including noncontrolling interests; the answer key excludes them.
+- An XBRL-only run of the 15 open questions would settle them. It was not run (about $0.80 on this model).
+
+Per-question rows are in `results/xbrl_use.json` (ids and labels only).
+
 ## Retrieval (component eval, no LLM)
 
 How often does search put a gold evidence page near the top when the raw question text is the query? This measures the search layer alone, before any agent writes better queries.

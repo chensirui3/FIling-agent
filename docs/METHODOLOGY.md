@@ -69,6 +69,13 @@ Guarantees:
 - **Isolated questions.** Every question gets a fresh agent and conversation. Only read-only resources are shared: the index, parsed pages, and the SEC cache, behind a lock.
 - **Offline SEC data.** XBRL experiments refuse to start unless every company's SEC data is already cached.
 - **Dry run.** `--dry-run` prints the plan and a rough cost range without calling anything.
+- **Batch mode.** `--batch` sends a config without tools (closed book, classic RAG, long context) through the Message Batches API, which bills every token at half price.
+  - Each request is the one a live run would send, minus the cache marker: a single-shot prompt is never read back, so caching it would only add the write premium.
+  - Each returned message is replayed through the agent loop, so parsing, statuses, traces and result rows come from the same code as a live run. Cost is recorded at half the list price. Latency is not measured.
+  - The batch id is saved in the run directory before waiting. An interrupted run, or one started with `--no-wait`, collects its results with `--batch --resume <run_id>`. Failed requests go to `errors.jsonl` and are batched again on the next resume.
+  - A submitted batch cannot be stopped by the cost cap, so the run refuses to submit when the rough upper cost is over the cap.
+  - Agent configs cannot use it: a batch request cannot answer tool calls.
+  - This mode is tested offline against a fake client. It has not been run against the live API.
 
 ## Grading
 

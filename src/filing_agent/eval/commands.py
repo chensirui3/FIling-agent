@@ -24,6 +24,7 @@ from filing_agent.data import financebench as fb
 from filing_agent.data.splits import load_split
 from filing_agent.eval import calibration as cal
 from filing_agent.eval import retrieval as rv
+from filing_agent.eval import xbrl_use as xu
 from filing_agent.eval.analysis_cli import (
     compare_command,
     grade_command,
@@ -286,4 +287,31 @@ def calibration_score_command() -> None:
         f"{pct(result.weighted_agreement)} weighted to all judge verdicts; "
         f"kappa {'-' if result.kappa is None else f'{result.kappa:.2f}'}\n"
         f"-> {out_dir / cal.AGREEMENT_FILE}"
+    )
+
+
+@eval_app.command("xbrl-use")
+def xbrl_use_command(
+    run: list[str] = typer.Option(..., "--run", help="Graded run to read (repeatable)."),
+) -> None:
+    """Count the metric questions the agent answered from SEC XBRL data alone."""
+    settings = get_settings()
+    questions = all_questions(settings)
+    rows: list[xu.XbrlUse] = []
+    for run_id in run:
+        rows += xu.xbrl_use(settings.results_dir / "runs" / run_id, questions)
+    if not rows:
+        console.print("[red]No graded metric questions in those runs.[/]")
+        raise typer.Exit(code=1)
+    out = settings.results_dir / xu.OUT_FILE
+    cal.save_json(out, xu.to_json(rows))
+    table = Table("Evidence route", "Questions", "Correct")
+    for route in ("xbrl", "text", "both", "none"):
+        of_route = [r for r in rows if r.route == route]
+        table.add_row(route, str(len(of_route)), str(sum(r.label == "correct" for r in of_route)))
+    console.print(table)
+    alone = sum(r.route == "xbrl" and r.label == "correct" for r in rows)
+    console.print(
+        f"answered correctly from XBRL alone: {alone}/{len(rows)} = {alone / len(rows):.0%} "
+        f"(a lower bound on XBRL answerability) -> {out}"
     )

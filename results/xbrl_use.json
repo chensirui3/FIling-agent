@@ -1,0 +1,431 @@
+{
+  "summary": {
+    "questions": 50,
+    "correct": 49,
+    "by_route": {
+      "xbrl": 35,
+      "text": 14,
+      "both": 1,
+      "none": 0
+    },
+    "correct_from_xbrl_alone": 34,
+    "answerable_lower_bound": 0.68,
+    "by_gold_kind": {
+      "money": {
+        "questions": 18,
+        "correct_from_xbrl_alone": 15
+      },
+      "number": {
+        "questions": 17,
+        "correct_from_xbrl_alone": 10
+      },
+      "percent": {
+        "questions": 15,
+        "correct_from_xbrl_alone": 9
+      }
+    },
+    "text_route_without_trying_xbrl": 13
+  },
+  "questions": [
+    {
+      "question_id": "financebench_id_03031",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03620",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03718",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03838",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03882",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04254",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04412",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04481",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04660",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04784",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04980",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_05718",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_06247",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_06741",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_07661",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_10499",
+      "run_id": "20261112-194903-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_02608",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_02981",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_02987",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03029",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03069",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03282",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03471",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03473",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03531",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03849",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_03856",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04080",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "both",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04103",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04171",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04209",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04302",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "text",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04417",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04458",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04672",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04700",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04735",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_04854",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_05915",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_06272",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_06655",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_07507",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_07966",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_08135",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_08286",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_09724",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "percent",
+      "route": "text",
+      "tried_xbrl": false,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_10130",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_10136",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_10285",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "money",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "correct"
+    },
+    {
+      "question_id": "financebench_id_10420",
+      "run_id": "20261113-011939-b4_full_agent-947b03f4d8",
+      "gold_kind": "number",
+      "route": "xbrl",
+      "tried_xbrl": true,
+      "label": "incorrect"
+    }
+  ]
+}

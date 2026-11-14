@@ -32,6 +32,7 @@ A memorization check ran the same model closed book, with no tools and no docume
 
 - **FinanceBench is largely memorized.** With no documents, the model answers 80% of dev questions, but none about filings published after its training cutoff. The fresh benchmark ([docs/FRESH.md](docs/FRESH.md)) is built from 38 post-cutoff 10-Ks and 10-Qs, with golds taken from the filings' own XBRL tags and checked against the SEC API.
 - **The agent's accuracy is research, not recall.** It scores 100% on the post-cutoff questions. It uses the XBRL API only when the figure exists nowhere else (23 of 25 two-year-change questions, against 2 of 114 in the first tier).
+- **The SEC API alone answers most metric questions.** The agent answered 34 of FinanceBench's 50 metric questions correctly without opening a filing, a lower bound on what the XBRL data covers.
 - **Almost every failure is on the question side.** Of 21 failures in 339 questions, 2 are agent errors (both used a source for the wrong period). The rest are unstated definitions, judgment calls, ambiguous questions, wrong golds and one judge error. There are no retrieval, table-reading or arithmetic failures.
 - **The grading holds up.** A blind human check of 40 judge verdicts found no lenient ones (32 of 32 "correct" verdicts agreed). Where the two differed, the judge had been the stricter.
 - **The one measured fix was rejected.** A prompt change targeting the period error fixed it, but dev dropped 96% → 90% on three judgment questions (p = 0.25). The pre-registered rule rejected it, and the negative result is reported.
@@ -145,6 +146,7 @@ Selection, HTML parsing, fiscal-period quirks and how the questions are built ar
 uv run fa eval run configs/experiments/b3_shared_text.yaml --split dev --dry-run   # plan and rough cost
 uv run fa eval run configs/experiments/b3_shared_text.yaml --split dev --reps 2 --max-cost 25
 uv run fa eval run configs/experiments/b3_shared_text.yaml --resume <run_id>       # retry failures
+uv run fa eval run configs/experiments/b0_closed_book.yaml --split test --batch   # half price; configs without tools
 ```
 
 The eight baseline configs, from closed-book to long-context, are described in [docs/METHODOLOGY.md](docs/METHODOLOGY.md#running-experiments).
@@ -158,6 +160,7 @@ uv run fa eval compare <run_a> <run_b>     # paired change with 95% CI, McNemar 
 uv run fa eval chart                       # redraw the baseline ladder chart from the saved runs
 uv run fa eval grader-check                # known-good and known-bad answers through the numeric grader
 uv run fa eval gold-review                 # how each bare-number gold is read -> results/labels/gold_review.csv
+uv run fa eval xbrl-use --run <run_id>     # metric questions answered from the XBRL API alone
 ```
 
 The rules (tolerance, scales, percents, refusals) are in [docs/METHODOLOGY.md](docs/METHODOLOGY.md#grading).

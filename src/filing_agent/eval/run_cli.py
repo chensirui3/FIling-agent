@@ -24,10 +24,11 @@ from filing_agent.corpus.index import FilingIndex
 from filing_agent.corpus.parse import ParsedDoc, load_parsed
 from filing_agent.data import financebench as fb
 from filing_agent.data.splits import load_split
+from filing_agent.eval import batch as bm
 from filing_agent.eval.context import build_context
 from filing_agent.eval.datasets import load_dataset, split_path
 from filing_agent.eval.experiment import ExperimentConfig, load_experiment
-from filing_agent.eval.runner import CONFIG_FILE, run_experiment
+from filing_agent.eval.runner import CONFIG_FILE, Execute, run_experiment
 from filing_agent.sec.companies import CompanyRegistry
 from filing_agent.sec.http import companyfacts_url
 from filing_agent.sec.service import SecService
@@ -109,6 +110,12 @@ def run_command(
     ),
     resume: str | None = typer.Option(None, help="Run id to resume (skips completed questions)."),
     dry_run: bool = typer.Option(False, "--dry-run", help="Print the plan and cost range only."),
+    batch: bool = typer.Option(
+        False, "--batch", help="Use the Batch API: half price, configs without tools only."
+    ),
+    wait: bool = typer.Option(
+        True, "--wait/--no-wait", help="With --batch: wait for results, or collect on --resume."
+    ),
 ) -> None:
     """Run an experiment: every selected question, `reps` times, with full traces."""
     settings = get_settings()
@@ -125,6 +132,11 @@ def run_command(
         raise typer.Exit(code=1)
     cap = settings.max_cost_usd if max_cost is None else max_cost
     low, high = rough_cost_per_question(exp)
+    if batch:
+        if exp.tools:
+            console.print("[red]--batch needs a config without tools; a batch cannot run them.[/]")
+            raise typer.Exit(code=1)
+        low, high = low * bm.BATCH_DISCOUNT, high * bm.BATCH_DISCOUNT
     runs = len(questions) * reps
     console.print(
         f"[bold]{exp.name}[/] ({exp.config_hash()}) on {exp.dataset}: "
@@ -194,7 +206,7 @@ def run_command(
     def load_doc(name: str) -> ParsedDoc:
         return load_parsed(settings.parsed_dir, name)
 
-    def execute(question: fb.Question, _rep: int) -> AgentRun:
+    def agent_for(question: fb.Question, api: object, cost_factor: float = 1.0) -> Agent:
         context_tools = ToolContext(
             registry=registry,
             parsed_dir=settings.parsed_dir,
@@ -202,11 +214,67 @@ def run_command(
             sec_loader=(lambda: _require(sec)) if sec is not None else None,
             allowed_docs=frozenset({question.doc_name}) if exp.corpus == "gold_filing" else None,
         )
-        agent = Agent(client, build_tools(context_tools, exp.tools), exp.agent_config())
-        context = build_context(
+        return Agent(
+            api,
+            build_tools(context_tools, exp.tools),
+            exp.agent_config(),
+            cost_factor=cost_factor,
+        )
+
+    def context_for(question: fb.Question) -> str | None:
+        return build_context(
             exp.context, question, load_doc=load_doc, index=index, k=exp.retrieved_k
         )
-        return agent.run(question.question, context=context)
+
+    def run_live(question: fb.Question, _rep: int) -> AgentRun:
+        return agent_for(question, client).run(question.question, context=context_for(question))
+
+    execute: Execute = run_live
+    state: bm.BatchState | None = None
+    if batch:
+        state = bm.load_state(run_dir)
+        if state is None or state.collected:
+            jobs = bm.pending_jobs(questions, reps, run_dir)
+            if not jobs:
+                console.print("Nothing left to run.")
+                return
+            if high * len(jobs) > cap:  # a submitted batch cannot be stopped by the cap
+                console.print(
+                    f"[red]The rough upper cost, ${high * len(jobs):.2f}, is over the cap "
+                    f"(${cap:.2f}). Raise --max-cost to submit this batch.[/]"
+                )
+                raise typer.Exit(code=1)
+            requests = [
+                ((q.id, r), bm.batch_params(agent_for(q, client), q.question, context_for(q)))
+                for q, r in jobs
+            ]
+            state = bm.submit(client, run_dir, requests)
+            console.print(f"Submitted batch {state.batch_id} with {len(requests)} requests.")
+        if not wait:
+            console.print(
+                f"Collect the results later with: fa eval run {config} --batch --resume {run_id}"
+            )
+            return
+        console.print(f"Waiting for batch {state.batch_id} (safe to interrupt and --resume).")
+        bm.wait_until_ended(
+            client,
+            state.batch_id,
+            on_poll=lambda b: console.print(
+                f"[dim]{b.processing_status}: {b.request_counts.processing} processing, "
+                f"{b.request_counts.succeeded} succeeded, {b.request_counts.errored} errored[/]"
+            ),
+        )
+        answers = bm.collect(client, state)
+        in_batch = {question_id for question_id, _ in state.jobs.values()}
+        questions = [q for q in questions if q.id in in_batch]
+        runs = len(state.jobs)
+
+        def run_replayed(question: fb.Question, rep: int) -> AgentRun:
+            replay = bm.ReplayClient(bm.message_for(answers, question.id, rep))
+            agent = agent_for(question, replay, cost_factor=bm.BATCH_DISCOUNT)
+            return agent.run(question.question, context=context_for(question))
+
+        execute = run_replayed
 
     with Progress(
         TextColumn("[bold]Running"),
@@ -228,11 +296,13 @@ def run_command(
             reps=reps,
             run_dir=run_dir,
             execute=execute,
-            concurrency=concurrency,
-            max_cost=cap,
+            concurrency=1 if batch else concurrency,
+            max_cost=None if batch else cap,
             on_done=on_done,
         )
 
+    if state is not None:
+        bm.save_state(run_dir, state.model_copy(update={"collected": True}))
     table = Table(title=f"Run {run_id}", title_justify="left")
     table.add_column("status")
     table.add_column("count", justify="right")

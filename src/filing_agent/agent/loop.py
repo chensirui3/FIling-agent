@@ -48,6 +48,11 @@ class AgentConfig:
 EventHandler = Callable[[BaseModel], None]
 
 
+def user_text(question: str, context: str | None = None) -> str:
+    """The first user message: any context first, the question last."""
+    return question if context is None else f"{context}\n\n{question}"
+
+
 def _dump(block: Any) -> dict[str, Any]:
     if hasattr(block, "model_dump"):
         return block.model_dump(mode="json", exclude_none=True)
@@ -63,18 +68,23 @@ class Agent:
         *,
         on_event: EventHandler | None = None,
         clock: Callable[[], float] = time.monotonic,
+        cost_factor: float = 1.0,
     ) -> None:
         self.client = client
         self.tools = tools
         self.config = config or AgentConfig()
         self.on_event = on_event
         self.clock = clock
+        self.cost_factor = cost_factor  # 0.5 for answers that came back through a batch
         self.system = system_prompt(tools.names, self.config.prompt_version)
         self.tool_definitions = tools.definitions()
 
     # ------------------------------------------------------------------ one request
 
-    def _create(self, messages: list[dict[str, Any]], *, tools_off: bool) -> Any:
+    def request_params(
+        self, messages: list[dict[str, Any]], *, tools_off: bool = False
+    ) -> dict[str, Any]:
+        """The Messages API request for one turn (also what a batch submits)."""
         params: dict[str, Any] = {
             "model": self.config.model,
             "max_tokens": self.config.max_tokens,
@@ -88,6 +98,10 @@ class Agent:
             params["tools"] = self.tool_definitions
             if tools_off:
                 params["tool_choice"] = {"type": "none"}
+        return params
+
+    def _create(self, messages: list[dict[str, Any]], *, tools_off: bool) -> Any:
+        params = self.request_params(messages, tools_off=tools_off)
         if self.config.fallbacks:
             return self.client.beta.messages.create(
                 **params, betas=[FALLBACK_BETA], fallbacks="default"
@@ -99,6 +113,13 @@ class Agent:
         read = getattr(usage, "cache_read_input_tokens", None) or 0
         write = getattr(usage, "cache_creation_input_tokens", None) or 0
         details = getattr(response, "stop_details", None)
+        cost = cost_usd(
+            response.model,
+            input_tokens=usage.input_tokens,
+            output_tokens=usage.output_tokens,
+            cache_read_tokens=read,
+            cache_write_tokens=write,
+        )
         call = ModelCall(
             turn=turn,
             response_id=getattr(response, "id", None),
@@ -109,13 +130,7 @@ class Agent:
             output_tokens=usage.output_tokens,
             cache_read_tokens=read,
             cache_write_tokens=write,
-            cost_usd=cost_usd(
-                response.model,
-                input_tokens=usage.input_tokens,
-                output_tokens=usage.output_tokens,
-                cache_read_tokens=read,
-                cache_write_tokens=write,
-            ),
+            cost_usd=None if cost is None else cost * self.cost_factor,
             latency_ms=round(latency_s * 1000, 1),
             stop_details=_dump(details) if details is not None else None,
         )
@@ -161,9 +176,9 @@ class Agent:
     def run(self, question: str, *, context: str | None = None) -> AgentRun:
         started_at = datetime.now(UTC).isoformat(timespec="seconds")
         started = self.clock()
-        user_text = question if context is None else f"{context}\n\n{question}"
-        messages: list[dict[str, Any]] = [{"role": "user", "content": user_text}]
-        transcript: list[dict[str, Any]] = [{"role": "user", "content": user_text}]
+        first = user_text(question, context)
+        messages: list[dict[str, Any]] = [{"role": "user", "content": first}]
+        transcript: list[dict[str, Any]] = [{"role": "user", "content": first}]
         model_calls: list[ModelCall] = []
         tool_calls: list[ToolCall] = []
         status: RunStatus = "budget_exhausted"
