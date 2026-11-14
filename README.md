@@ -217,7 +217,7 @@ claude mcp add filing-agent -- uv run --directory "/path/to/filing agent" fa mcp
   - It is not lenient. It is stricter than a person where the answer key uses an unusual formula, so the strict scores are conservative.
 - **The fresh text questions were drafted by Claude.** They were checked automatically, read in a first pass, and sampled by a person. The same model family answers them, which may favor its wording; the numeric two-thirds are template-based.
 - **Not run:**
-  - the whole-filing long-context baseline (about $20–45)
+  - the whole-filing long-context baseline
   - dense or hybrid retrieval at corpus scale (about 5 hours of CPU embedding)
   - closed book on the test split
 
